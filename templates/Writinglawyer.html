@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Legitech Ai</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" /><link rel="stylesheet" href="static/css/style_back.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<body>
+  <div id="sidebar">
+    {% include './sidebar.html' %}
+    </div>
+  
+   <div class="container">
+    <h1 style="z-index: 1;margin-top: -587px;margin-left: 83px;position: absolute;">Writing Lawyer </h1>
+    <div class="blob-c">
+      <div class="blob"></div>
+      <div class="blob one"></div>
+      <div class="blob two"></div>
+      <div class="blob three"></div>
+      <div class="blob four"></div>
+      <div class="blob five"></div>
+      <div class="blob six"></div>
+      <div class="blob seven"></div>
+    </div>
+   
+    <section style="z-index: 1;">
+        {% if not generated_text and not text%}
+        <form action="/generate_text" method="post" enctype="multipart/form-data" id="my-form" style="margin-left: -490px;margin-top: -205px;z-index: 1;position: absolute;">
+            <h3  style="margin-left: -65px;margin-top: -6px;z-index: 1;">Show us your awesome handwriting!📝:</h3> 
+             <label class="btn-draganddrop"style="width: 308px;position: absolute;margin-left: 382px;">
+                 Select Or Drop An Image
+                 <input type="file" id="image__input" name="image" @change="onChange" accept="image/*"style="display: none;">
+             </label>
+             <br>
+             <!-- <label for="num_lines"class="ecriture">How many lines did you write ✏️?</label> -->
+             <!-- <input type="number" name="num_lines"class="ecriture" placeholder="" > -->
+             <br>
+             <button class="btn-recognize"style="
+             width: 308px;
+             position: absolute;
+             margin-left: 382px;
+             margin-top: 51px;
+         ">Recognize</button>
+             <br>
+            
+         </form>
+    {% endif %}
+    {% if generated_text %}
+    <div class="wrapper"style="margin-top: -205px;">
+        
+        
+        
+        <!-- Display generated_text in a textarea for editing -->
+        <form action="/correct_text" method="post" id="my-form-2">
+            <div class="haja">
+                <textarea id="user_input" name="user_input" class="text-2" rows="4"style="font-weight: 50;height: 543px;width:" >{{ generated_text }}</textarea>
+                <img src="data:image/jpeg;base64, {{ imgg }}" alt="Your Image Description" style="
+                margin: 14px;
+                width: 561px;
+            "/>
+            </div>
+            <br>
+            <input type="submit" class="btn-correct" value="Correct paragraph"style="
+            margin-left: 236px;
+        ">
+
+        </form>
+        
+    </div>
+    {% endif %}
+    {% if grade %}
+    <div class="wrapper"style="z-index: 1;margin-left: -652px;position: absolute;margin-top: -195px;">
+       
+                 {% if grade=='A' %}
+                 <img src="../static/back_img/1.png" class="grade">
+                 {% elif grade == 'B' %}
+                 <img src="../static/back_img/2.png" class="grade">
+                 {% elif grade == 'C' %}
+                 <img src="../static/back_img/3.png" class="grade">
+                 {% elif grade == 'D' %}
+                 <img src="../static/back_img/4.png" class="grade">
+                 {% else %}
+                 <img src="../static/back_img/3.png" class="grade">
+                 {% endif %}
+         
+            
+                 <div class="pros-cons-container" style="z-index: 1;color: white;">
+                     <div class="pros-container"  style="font-size: 20px;">
+                       <h2 class="heading">Nicely Done</h2>
+                       <br>
+                       <ul class="pros">
+                        {% for point in pros.split('\n')[1:] if point.strip() %}
+                            <li >{{ point.strip() }}</li> <br>
+                        {% endfor %}
+                    </ul>
+                     </div>
+               
+                     <div class="cons-container" style="font-size: 20px;">
+                       <h2 class="heading">Things to improve</h2>
+                       <br>
+                       <ul class="cons">
+                        {% for point in cons.split('\n')[1:] if point.strip() %}
+                            <li>{{ point.strip() }}</li><br>
+                        {% endfor %}
+                    </ul>
+                     </div>
+ 
+                   </div>              
+       
+              
+                
+                
+           
+     </div>
+     
+     {% endif %} 
+      
+    </section>
+  </div>
+  
+
+</body>
+<!-- partial -->
+  <script  src="static/script.js"></script>
+  <script>
+    document.getElementById("image__input").addEventListener("change", function () {
+        const imagePreview = document.getElementById("imagePreview");
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.className = "preview-image";
+                img.style.width = "50%";
+                img.style.height = "50%";
+                img.style.marginBottom="150px"
+                imagePreview.innerHTML = "";
+                imagePreview.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.innerHTML = ""; // Clear the preview if no file is selected
+        }
+    });
+</script>
+<script src="{{ url_for('static', filename='back/js/drag_and_drop.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</body>
+</html>

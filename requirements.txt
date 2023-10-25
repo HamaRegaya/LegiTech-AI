@@ -1,0 +1,7 @@
+flask
+PyMuPDF 
+openai
+nltk 
+Markup
+python-dotenv
+azure.cognitiveservices.vision.computervision
