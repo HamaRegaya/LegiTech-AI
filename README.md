@@ -29,8 +29,7 @@
 |    |-- templates/                      # Templates used to render pages
 |    |    |
 |    |    |-- *.html                   # All HTML files
-|    |
-|    |
+
 
 ```
 
